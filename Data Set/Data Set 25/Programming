@@ -1,0 +1,41 @@
+import numpy as np
+import cv2
+import matplotlib
+import matplotlib.pyplot as plt
+
+img1 = cv2.imread("anger_5.jpg")
+
+cv2.imshow('Original Image',img1)
+gray1 = cv2.cvtColor(img1,cv2.COLOR_BGR2GRAY)
+cv2.imshow('Gray Image',gray1)
+
+width1 = int(img1.shape[1])
+height1 = int(img1.shape[0])
+print("Width of RGB Dataset Face Images is")
+print(width1)
+print("Height of RGB Dataset Face Images is")
+print(height1)
+w1 = width1
+h1 = height1
+
+mean = cv2.mean(img1)
+print("Mean of RGB Dataset Images is")
+print(mean)
+
+stdev = np.std(gray1)
+print("Standard Deviation of RGB Dataset Images is")
+print(stdev)
+
+plt.hist(gray1.ravel(),256,[0,256])
+plt.show()
+
+f = np.fft.fft2(gray1)
+mag_spectrum_before_shift = 20*np.log(np.abs(f))
+print(mag_spectrum_before_shift)
+fshift = np.fft.fftshift(f)
+mag_spectrum = 20*np.log(np.abs(fshift))
+mag_spectrum = np.asarray(mag_spectrum, dtype=np.uint8)
+cv2.imshow("Magnitude Spectrum of Gray Dataset Images",mag_spectrum)
+
+cv2.waitKey(0)
+cv2.destroyAllWindows()
